@@ -1,3 +1,4 @@
+// config/webpack.config.js
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -11,11 +12,11 @@ module.exports = {
   devtool: 'inline-source-map',
   devServer: {
     static: {
-      directory: path.resolve(__dirname, '../dist'),
+      directory: path.resolve(__dirname, '../public'),
     },
     hot: true,
     open: true,
-    port: 3000,
+    port: 8080,
   },
   module: {
     rules: [
@@ -52,11 +53,24 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+          },
+        },
+      },
     ],
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, '../src/index.html'),
+      template: path.resolve(__dirname, '../public/index.html'),
     }),
   ],
 };
